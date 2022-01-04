@@ -1,14 +1,20 @@
-// require("dotenv").config()
+// Besoin express pour fonctionner
 const express = require("express")
-
-// Importer les routes
-// const userRoutes = require("./routes/user")
-
-
 const app = express()
 app.use(express.json())
 
-// J'enregistre mes routes
-// app.use("/api/auth")
+// Importer les routes
+const userRoutes = require("./routes/user")
+
+// Sécurité pour recevoir api serveur CORS
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+});
+
+// Enregistrer les routes avec leur chemin
+app.use("/api/auth", userRoutes)
 
 module.exports = app
