@@ -1,6 +1,9 @@
 // Bcrypt crypter le mot de passe
 const bcrypt = require("bcrypt")
 
+// Permet de créer des token d'authentification à un utilisateur au moment de la connection
+const jwt = require("jsonwebtoken")
+
 // ===================================== NOUVEL UTILISATEUR ============================================
 // J'importe mon modele User pour lire le model
 const User = require("../models/User")
@@ -13,13 +16,16 @@ exports.signup = (req, res, next) => {
         .then(hash => {
             // Je récupère un nouveau user crypter
             const user = new User({
+                // On met m'email qu'il y a dans la requête
                 email: req.body.email,
+                // On récupère le hash de bcrypt
                 password: hash
             })
 
             // J'utilise save pour l'engistrer l'user crypter dans la base de donnée
             user.save()
                 .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
+                // Si user existe error 400
                 .catch(error => res.status(400).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
@@ -27,7 +33,35 @@ exports.signup = (req, res, next) => {
 
 // ================================== CONNECTER UTILISATEUR EXISTANT ====================================
 // Fonction middleware pour connecter des utilisateurs existants
-// exports.login = (req, res, next) => {
-
-// };
+exports.login = (req, res, next) => {
+    // Je récupère l'user qui corespond à la base de donnée
+    User.findOne({
+        email: req.body.email
+    })
+        .then(user => {
+            if (!user) {
+                // Si pas trouver user error 401
+                return res.status(401).json({ error: "Utilsateur non trouvé !" })
+            }
+            // Je compare le hash entrer avec le hash de la base de donnée
+            bcrypt.compare(req.body.password, user.password)
+                .then(valid => {
+                    // Si faux pas le bon user
+                    if (!valid) {
+                        return res.status(401).json({ error: "Mot de passe incorrect !" })
+                    }
+                    // Si c'est bon je lui renvoi status 200 avec user et token
+                    res.status(200).json({
+                        userId: user._id,
+                        token: jwt.sign(
+                            { userId: user._id },
+                            'RAMDOM_TOKEN_SECRET',
+                            { expiresIn: "24" }
+                        )
+                    })
+                })
+                .catch(error => res.status(500).json({ error }))
+        })
+        .catch(error => res.status(500).json({ error }))
+};
 

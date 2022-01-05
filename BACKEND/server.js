@@ -1,18 +1,19 @@
-// 1. Création du serveur
-const http = require("http")
+// 1. Création du package de node http qui
+// Ecoute des requetes http et reponse http
+const http = require('http'); // Import du package http 
+const app = require('./app'); // Import de app pour utilisation de l'application sur le serveur
 
 // Connection à la base de donnée Mongo DB
 const connectionDB = require("./config/db")
 connectionDB()
 
-// J'appel mon application app.js
-const app = require("./app")
-
-// Je dis sur quel port écouter
+// Ajout du port de connection si celui-ci n'est pas declarer par l environnement
+// Si aucun port n'est fourni on écoutera sur le port 3000
 const PORT = process.env.PORT || 3000
 
-// Je créais mon seveur
-const server = http.createServer(app)
+// Créer un serveur avec express qui utilise app
+// Création d'une constante pour les appels serveur (requetes et reponses)
+const server = http.createServer(app);
 
-// Ecoute sur le port
+// Le serveur écoute le port 
 server.listen(PORT, () => console.log(`Serveur en route sur le port ${PORT}`))

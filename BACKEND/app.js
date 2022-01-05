@@ -1,10 +1,14 @@
 // Besoin express pour fonctionner
 const express = require("express")
-const app = express()
-app.use(express.json())
 
-// Importer les routes
-const userRoutes = require("./routes/user")
+// Pour donner le chemin à node pour les images
+const path = require("path")
+
+// J'appel express pour permettre de créer une application express
+const app = express()
+
+// Accéder au corps de la requête en json avec req.body
+app.use(express.json())
 
 // Sécurité pour recevoir api serveur CORS
 app.use((req, res, next) => {
@@ -14,7 +18,20 @@ app.use((req, res, next) => {
     next();
 });
 
+// Je déclare mes routes
+// Importer les routes
+const userRoutes = require("./routes/user")
+const saucesRoutes = require("./routes/sauces")
+
+
 // Enregistrer les routes avec leur chemin
+// Route nouvel utilisateur
 app.use("/api/auth", userRoutes)
+
+// Route sauces
+app.use("/api/sauces", saucesRoutes)
+
+// Création d'une sauce dans la base de donnée
+app.use("/images", express.static(path.join(__dirname, "images")))
 
 module.exports = app
