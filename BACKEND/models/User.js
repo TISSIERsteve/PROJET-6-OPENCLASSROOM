@@ -12,11 +12,11 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         unique: true,
-        match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, "Veuillez entrer une adresse email correcte"]
+        // match: [/^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/, "Veuillez entrer une adresse email correcte"]
     },
     password: {
         type: String,
-        required: [true, "Veuillez choisir un mot de passe"]
+        // required: [true, "Veuillez choisir un mot de passe"]
     }
 })
 

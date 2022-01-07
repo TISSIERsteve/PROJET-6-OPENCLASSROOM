@@ -1,6 +1,5 @@
 const Sauce = require("../models/Sauce") // Je récupère mon model sauce
 const fs = require("fs")
-const { log } = require("console")
 
 // ======================================= CREATION SAUCE ==============================================
 exports.createSauce = (req, res, next) => {
@@ -52,13 +51,14 @@ exports.deleteSauce = (req, res, next) => {
         // Une fois trouvé extraire le nom du fichier à supprimer
         .then((sauce) => {
             // Je récupère le fichier précis avec son imageUrl
-            const filename = sauce.imageUrl.split("/images/")[1]; //supprimer une seule image
+            const filename = sauce.imageUrl.split("images/")[2]; //supprimer une seule image
             // J'appel unlink pour supprimer un fichier
             fs.unlink(`images/${filename}`, () => {
                 Sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: "Objet supprimé !" }))
-                    .catch((error) => res.status(400).json({ error }));
+                    .then(() => res.status(200).json({ message: "Sauce supprimé !" }))
+                    .catch(error => res.status(400).json({ error }));
             });
         })
-        .catch((error) => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error }));
 };
+
