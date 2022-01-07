@@ -51,7 +51,7 @@ exports.deleteSauce = (req, res, next) => {
         // Une fois trouvé extraire le nom du fichier à supprimer
         .then((sauce) => {
             // Je récupère le fichier précis avec son imageUrl
-            const filename = sauce.imageUrl.split("images/")[2]; //supprimer une seule image
+            const filename = sauce.imageUrl.split("images/")[1]; //supprimer une seule image
             // J'appel unlink pour supprimer un fichier
             fs.unlink(`images/${filename}`, () => {
                 Sauce.deleteOne({ _id: req.params.id })
