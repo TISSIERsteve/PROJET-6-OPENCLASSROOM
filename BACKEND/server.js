@@ -15,5 +15,5 @@ const PORT = process.env.PORT || 3000
 // Création d'une constante pour les appels serveur (requetes et reponses)
 const server = http.createServer(app);
 
-// Le serveur écoute le port 
+// Le serveur écoute le port fourni
 server.listen(PORT, () => console.log(`Serveur en route sur le port ${PORT}`))

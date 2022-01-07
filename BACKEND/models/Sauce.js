@@ -1,5 +1,6 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose") // Pour la création d'un model on a besoin de mongoose
 
+// Création d'un schéma pour les enregistrements des sauces dans la bases de données
 const sauceSchema = mongoose.Schema({
     userId: {
         type: String,
@@ -43,4 +44,5 @@ const sauceSchema = mongoose.Schema({
     }
 })
 
+// J'exporte le schéma pour être utilsé pour vérification
 module.exports = mongoose.model("Sauce", sauceSchema)

@@ -1,12 +1,8 @@
-// Bcrypt crypter le mot de passe
-const bcrypt = require("bcrypt")
-
-// Permet de créer des token d'authentification à un utilisateur au moment de la connection
-const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt") // Bcrypt crypter le mot de passe
+const jwt = require("jsonwebtoken") // Permet de créer des token d'authentification à un utilisateur au moment de la connection
 
 // ===================================== NOUVEL UTILISATEUR ============================================
-// J'importe mon modele User pour lire le model
-const User = require("../models/User")
+const User = require("../models/User") // J'importe mon modele User pour lire le model
 
 // Fonction middleware d'identification pour création d'un nouvel utilisateur
 // Avec ce mot de passe va créer un nouveau user et enregistrer dans notre base de donnée
@@ -43,7 +39,7 @@ exports.login = (req, res, next) => {
                 // Si pas trouver user error 401
                 return res.status(401).json({ error: "Utilsateur non trouvé !" })
             }
-            // Je compare le hash entrer avec le hash de la base de donnée
+            // Je compare le hash entrer avec le hash de la base de donnéevavec bcrypt
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     // Si faux pas le bon user
@@ -55,8 +51,8 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign(
                             { userId: user._id },
-                            'RAMDOM_TOKEN_SECRET',
-                            { expiresIn: "24" }
+                            `${process.env.JWT_SECRET}`,
+                            { expiresIn: "24h" }
                         )
                     })
                 })

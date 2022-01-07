@@ -1,8 +1,8 @@
 // DB.JS sert à créer une fonction pour se connecter à mongoose
-require("dotenv").config()
+const mongoose = require("mongoose") //Plugin pour se connecter à la base de donnée
+require("dotenv").config() // Masque les infos de connexion à la base de données à l'aide de variables d'environnements
 
-const mongoose = require("mongoose")
-
+// Fonction qui appel mongo db
 const connectDB = async () => {
     try {
         await mongoose.connect("mongodb://localhost:27017"), {
