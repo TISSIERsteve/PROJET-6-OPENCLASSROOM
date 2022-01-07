@@ -9,5 +9,6 @@ const saucesCtrl = require("../controller/sauces") // Associe la route aux contr
 // ======================================= CRUD ======================================================
 router.get("/", auth, saucesCtrl.getAllSauces) // Route pour récupérer toutes les sauces
 router.get("/:id", auth, saucesCtrl.getOneSauce) // Route pour récupèrer sauce avec son id
+router.put("/:id", auth, saucesCtrl.deleteSauce) //Route pour supprimer sauce avec son id
 router.post("/", auth, multer, saucesCtrl.createSauce) // Route pour enregistre l'image et l'envoi sur la base de donnée
 module.exports = router
