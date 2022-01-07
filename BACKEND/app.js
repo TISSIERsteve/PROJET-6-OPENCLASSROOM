@@ -25,6 +25,6 @@ const saucesRoutes = require("./routes/sauces") // Importer route création sauc
 
 // Enregistrer les routes avec leur chemin
 app.use("/api/auth", userRoutes) // Route connection ou authentification utilisateur
-app.use("/api/sauces", saucesRoutes) // Route création sauces
+app.use("/api/sauces", saucesRoutes) // Route sauces
 
 module.exports = app
