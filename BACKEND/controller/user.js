@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
         .then(hash => {
             // Je récupère un nouveau user crypter
             const user = new User({
-                // On met m'email qu'il y a dans la requête
+                // On met email qu'il y a dans la requête
                 email: req.body.email,
                 // On récupère le hash de bcrypt
                 password: hash
