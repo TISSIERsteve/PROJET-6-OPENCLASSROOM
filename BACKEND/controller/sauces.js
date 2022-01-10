@@ -44,7 +44,7 @@ exports.getOneSauce = (req, res, next) => {
         .catch(error => res.status(404).json({ error }))
 }
 
-// ===================================== SUPPRIMER SAUCE=================================================
+// ===================================== SUPPRIMER SAUCE =================================================
 exports.deleteSauce = (req, res, next) => {
     // Je vais chercher le fichier en question avec son id dans la base de donnée
     Sauce.findOne({ _id: req.params.id })
@@ -53,7 +53,7 @@ exports.deleteSauce = (req, res, next) => {
             // Je récupère le fichier précis avec son imageUrl
             const filename = sauce.imageUrl.split("/images/")[1]; //supprimer une seule image
             // J'appel unlink pour supprimer un fichier
-            fs.unlink(`images/${filename}`, () => {
+            fs.unlink(`backend/images/${filename}`, () => {
                 Sauce.deleteOne({ _id: req.params.id })
                     .then(() => res.status(200).json({ message: "Sauce supprimé !" }))
                     .catch(error => res.status(400).json({ error }));
@@ -66,6 +66,7 @@ exports.deleteSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {
     const sauceObject = req.file ?
         {
+
             ...JSON.parse(req.body.sauce),
             imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
         } : { ...req.body }
@@ -74,30 +75,5 @@ exports.modifySauce = (req, res, next) => {
         .catch(error => res.status(400).json({ error }))
 }
 
-// // =========================================== LIKE =====================================================
-// exports.createLike = (req, res, next) => {
-//     // Je récupère sauce avec son
-//     Sauce.findOne({
-//         _id: req.params.id
-//     })
-//     console.log(Sauce)
-//         .then(sauce => {
-//             // Si like aime
-//             if (req.body.like == 1) {
-//                 sauce.dislikes++
-//                 sauce.userLiked.push(req.body.userId)
-//                 sauce.save()
-//             }
-//             // si like n'aime pas
-//             if (req.body.like == -1) {
-//                 sauce.dislikes++
-//                 sauce.userDisliked.push((req.body.userId))
-//                 sauce.save()
-//             }
-//             res.status(200).json({ message: "Like ajouter" })
-//         })
-//         .catch(error => {
-//             res.status(500).json({ message: "erreur sur le like" })
-//         })
-// }
+
 
