@@ -13,6 +13,6 @@ router.put("/:id", auth, saucesCtrl.modifySauce) //Route pour mettre à jour sau
 router.delete("/:id", auth, saucesCtrl.deleteSauce) //Route pour supprimer sauce avec son id
 router.get("/:id", auth, saucesCtrl.getOneSauce) // Route pour récupèrer sauce avec son id
 router.get("/", auth, saucesCtrl.getAllSauces) // Route pour récupérer toutes les sauces
-router.post("/:id/like", auth, likeCtrl.createLike) // Route pour like les sauces
+router.post("/:id/like", auth, likeCtrl.createLike) // Route pour like ou dislike les sauces
 
 module.exports = router
