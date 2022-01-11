@@ -1,5 +1,5 @@
 const Sauce = require("../models/Sauce") // Je récupère mon model sauce
-const fs = require("fs") // Permet de supprimer le produit dans le dossier image
+const fs = require("fs/promises") // Permet de supprimer le produit dans le dossier image
 
 // ======================================= CREATION SAUCE ==============================================
 exports.createSauce = (req, res, next) => {
@@ -51,15 +51,26 @@ exports.deleteSauce = (req, res, next) => {
         // Une fois trouvé extraire le nom du fichier à supprimer
         .then((sauce) => {
             // Je récupère le fichier précis avec son imageUrl
-            const filename = sauce.imageUrl.split("/images/")[1]; //supprimer une seule image
+            return sauce.imageUrl.split("/images/")[1]; //supprimer une seule image
             // J'appel unlink pour supprimer un fichier
-            fs.unlink(`backend/images/${filename}`, () => {
-                Sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: "Sauce supprimé !" }))
-                    .catch(error => res.status(400).json({ error }));
-            });
         })
-        .catch(error => res.status(500).json({ error }));
+
+        .then((filename) => {
+            return fs.unlink(`backend/images/${filename}`)
+        })
+
+        .then(() => {
+            return Sauce.deleteOne({ _id: req.params.id })
+        })
+
+        .catch(error => {
+            console.log(error)
+            return res.status(500).json({ error })
+        })
+
+        .finally(() => {
+            return res.status(200).json({ message: "Sauce supprimé !" })
+        })
 };
 
 // ======================================= MODIFIER =====================================================
