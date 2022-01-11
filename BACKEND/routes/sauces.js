@@ -9,7 +9,7 @@ const likeCtrl = require("../controller/like") // Associe la route like aux cont
 
 // ======================================= CRUD ======================================================
 router.post("/", auth, multer, saucesCtrl.createSauce) // Route pour enregistre l'image et l'envoi sur la base de donnée
-router.put("/:id", auth, saucesCtrl.modifySauce) //Route pour mettre à jour sauce avec son id
+router.put("/:id", auth, multer, saucesCtrl.modifySauce) //Route pour mettre à jour sauce avec son id
 router.delete("/:id", auth, saucesCtrl.deleteSauce) //Route pour supprimer sauce avec son id
 router.get("/:id", auth, saucesCtrl.getOneSauce) // Route pour récupèrer sauce avec son id
 router.get("/", auth, saucesCtrl.getAllSauces) // Route pour récupérer toutes les sauces

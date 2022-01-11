@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     // Destination d'enregistrement des images
     destination: (req, file, callback) => {
         // Je passe le dossier images à mon backend
-        callback(null, "backend/images");
+        callback(null, "images");
     },
     // Nom de fichier pour éviter les doublons
     filename: (req, file, callback) => {
